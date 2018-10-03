@@ -1,6 +1,6 @@
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from database import LivingSocialPipeline
+from database import CandidateManager
 
 HOST_NAME = 'localhost'
 PORT_NUMBER = 9000
@@ -31,7 +31,7 @@ class MyHandler(BaseHTTPRequestHandler):
         self.end_headers()
         content = '''
         <html><head><title>Title goes here.</title></head>
-        <body><p>''' + LivingSocialPipeline().get_one() + ''' "</p>
+        <body><p>''' + CandidateManager().get_one() + ''' "</p>
         <p>You accessed path: {}</p>
         </body></html>
         '''.format(path)
