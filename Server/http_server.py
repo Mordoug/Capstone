@@ -17,29 +17,34 @@ class MyHandler(BaseHTTPRequestHandler):
             '/foo': {'status': 200},
             '/bar': {'status': 302},
             '/baz': {'status': 404},
-            '/qux': {'status': 500}
+            '/qux': {'status': 500},
+            '/name': {'status': 200}
         }
-
-        if self.path in paths:
-            self.respond(paths[self.path])
+        if self.path == "/name":
+            self.respond(paths[self.path], CandidateManager().get_one())
         else:
-            self.respond({'status': 500})
+            self.respond({'status': 500}, CandidateManager().get_one())
 
-    def handle_http(self, status_code, path):
+    def handle_http(self, status_code, path, string):
         self.send_response(status_code)
         self.send_header('Content-type', 'text/html')
         self.end_headers()
-        content = '''
-        <html><head><title>Title goes here.</title></head>
-        <body><p>''' + CandidateManager().get_one() + ''' "</p>
-        <p>You accessed path: {}</p>
-        </body></html>
-        '''.format(path)
+        content = self.build_content(path, "")
         return bytes(content, 'UTF-8')
 
-    def respond(self, opts):
-        response = self.handle_http(opts['status'], self.path)
+    def build_content(self, path, mystring):
+        response = '''
+            <html><head><title>Title goes here.</title></head>
+            <body><p> '''+ mystring +'''</p>
+            <p>You accessed path: {}</p>
+            </body></html>
+            '''.format(path)
+        return response
+
+    def respond(self, opts, string):
+        response = self.handle_http(opts['status'], self.path, string)
         self.wfile.write(response)
+
 
 if __name__ == '__main__':
     server_class = HTTPServer
