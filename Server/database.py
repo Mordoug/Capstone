@@ -5,6 +5,8 @@ from votesmart import votesmart
 from votesmart import VotesmartApiError
 from config import API_KEY_VOTESMART
 import json
+
+
 class QueryManager():
     def __init__(self):
         engine = db_connect()
@@ -14,10 +16,11 @@ class QueryManager():
     def query_people(self):
         session = self.Session()
         q = session.query(Person).all()
+
         row_dict = {}
         table_list = []
-        print (len(q))
         for row in q:
+
             row_dict = {}
             row_dict["id"] = row.id
             row_dict["firstName"] = row.first_name
@@ -27,6 +30,42 @@ class QueryManager():
             row_dict["office"] = session.query(Office).filter(Office.id==row.office).first().name
             table_list.append(row_dict)
 
+        return table_list
+
+    def query_issue_by_politcian(self, identifier):
+        session = self.Session()
+        q = session.query(Issue).filter(Issue.person==identifier)
+        #print(q)
+        row_dict = {}
+        table_list = []
+        for row in q:
+            #print("found")
+            row_dict = {}
+            row_dict["id"] = row.id
+            row_dict["topic"] = row.topic
+            row_dict["description"] = row.description
+            #row_dict["party"] = row.party
+            row_dict["person"] = row.person
+            row_dict["answerText"] = row.answer
+            table_list.append(row_dict)
+        return table_list
+
+    def query_issues(self):
+        session = self.Session()
+        q = session.query(Issue).all()
+        #print(q)
+        row_dict = {}
+        table_list = []
+        for row in q:
+            #print("found")
+            row_dict = {}
+            row_dict["id"] = row.id
+            row_dict["topic"] = row.topic
+            row_dict["description"] = row.description
+            #row_dict["party"] = row.party
+            row_dict["person"] = row.person
+            row_dict["answerText"] = row.answer
+            table_list.append(row_dict)
         return table_list
 
 class DatabaseFiller(object):
@@ -198,7 +237,7 @@ class DatabaseFiller(object):
         """
         session = self.Session()
         officials = votesmart.officials.getStatewide(state)
-        print(officials)
+
         try:
             for o in officials:
                 try:
@@ -288,7 +327,7 @@ class DatabaseFiller(object):
             for person in people:
                 try:
                     npat = votesmart.npat.getNpat(person.id)["section"]
-                    npat_list = deal_with_data(npat)
+                    npat_list = issue_parser(npat)
                     for item in npat_list:
                         for row in npat_list[item]:
                             if row["optionText"] is "X":
@@ -313,7 +352,7 @@ def dump_object(object, file_name):
     with open(file_name + ".json", 'w') as outfile:
         outfile.write(json.dumps(str(object)))
 
-def deal_with_data(data):
+def issue_parser(data):
     topics = []
     row = []
     result = {}
@@ -325,7 +364,6 @@ def deal_with_data(data):
             topics.append(ele["name"])
             new_data = data[(len(topics) - 1)]['row']
 
-            #print (new_data['row'])
 
             while end is False:
                 try:
@@ -362,12 +400,12 @@ def deal_with_data(data):
 
 if __name__ == "__main__":
     df = DatabaseFiller()
-    #df.insert_states()
-    #df.insert_office_branch()
-    #df.insert_office_level()
-    #df.insert_office_type()
-    #df.insert_offices()
-    #df.insert_district('VT')
-    #df.insert_officials('VT')
-    #df.insert_candidates('VT')
+    df.insert_states()
+    df.insert_office_branch()
+    df.insert_office_level()
+    df.insert_office_type()
+    df.insert_offices()
+    df.insert_district('VT')
+    df.insert_officials('VT')
+    df.insert_candidates('VT')
     df.insert_issues()

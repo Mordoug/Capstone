@@ -7,21 +7,18 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-
-    <FrameLayout
+    <androidx.appcompat.widget.ContentFrameLayout
+            android:id="@+id/main_fragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:id="@+id/fragmentContainer"
+            android:layout_height="match_parent"
     />
 
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/navigation"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                app:menu="@menu/bottom_bar_menu"/>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            app:menu="@menu/bottom_bar_menu"/>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,15 +1,20 @@
 package com.example.morganseielstad.politicado
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.security.NetworkSecurityPolicy
 
-class MainActivity : AppCompatActivity() {
+import android.os.Bundle
+
+import androidx.fragment.app.FragmentActivity
+
+class MainActivity : FragmentActivity() {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        PolitcianController().get_politicians()
+        supportFragmentManager.beginTransaction().run {
+            replace(R.id.main_fragment, MainMenuViewFragment())
+            commit()
+        }
     }
 }
