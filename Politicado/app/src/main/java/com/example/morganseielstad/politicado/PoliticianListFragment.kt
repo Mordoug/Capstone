@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.R.attr.layoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,14 +46,16 @@ class PoliticianListFragment : Fragment() {
         currentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER
         layoutManager = LinearLayoutManager(activity)
 
-        //recyclerView.layoutManager = LinearLayoutManager(activity)
-
         layoutManager = this@PoliticianListFragment.layoutManager
-        recyclerView.adapter = MyAdapter(myDataset)
 
-        //scrollToPosition(0)
+        recyclerView.adapter = MyAdapter(myDataset) { id ->
+            val ft: FragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
+            Log.d("ft:", id.toString())
+            ft.replace(R.id.main_fragment, PoliticianFragment(id)) //pass ID Somehow in future
+            ft.addToBackStack(ft.toString())
+            ft.commit()
+        }
 
-        //layoutManager = LinearLayoutManager(activity)
 
         return rootView
 
@@ -64,13 +67,6 @@ class PoliticianListFragment : Fragment() {
         }.get()
 
         myDataset = pController.getPoli()
-
-
-
-        //myDataset.add(Politician(firstName = "Morgan", lastName = "S", id = 1123, state = "VT", officeName = "President"))
-        //myDataset.add(Politician(firstName = "Morgan", lastName = "Se", id = 1123, state = "VT", officeName = "President"))
-        //myDataset.add(Politician(firstName = "Morgan", lastName = "Sei", id = 1123, state = "VT", officeName = "President"))
-        //myDataset.add(Politician(firstName = "Morgan", lastName = "Seie", id = 1123, state = "VT", officeName = "President"))
     }
 
 }

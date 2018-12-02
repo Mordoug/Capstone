@@ -16,11 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:textAlignment="center"
-            android:text="Barrak Obama"
+            android:text="Barack Obama"
             android:textFontWeight="700"
             android:textSize="14pt"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stance"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+            android:id="@+id/stance"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            class = "com.example.morganseielstad.politicado.PoliticianFragment"/>
+
+
 </LinearLayout>
