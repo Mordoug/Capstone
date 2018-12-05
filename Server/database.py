@@ -5,6 +5,7 @@ from votesmart import votesmart
 from votesmart import VotesmartApiError
 from config import API_KEY_VOTESMART
 import json
+import re
 
 
 class QueryManager():
@@ -67,6 +68,53 @@ class QueryManager():
             row_dict["answerText"] = row.answer
             table_list.append(row_dict)
         return table_list
+
+    def query_issues_by_topic(self, topic):
+        session = self.Session()
+        q = session.query(Issue).filter(Issue.topic==topic)
+        #print(q)
+        row_dict = {}
+        table_list = []
+        for row in q:
+            #print("found")
+            row_dict = {}
+            row_dict["id"] = row.id
+            row_dict["topic"] = row.topic
+            row_dict["description"] = row.description
+            #row_dict["party"] = row.party
+            row_dict["person"] = row.person
+            row_dict["answerText"] = row.answer
+            table_list.append(row_dict)
+        return table_list
+
+    def query_bio(self, id):
+            session = self.Session()
+            q = session.query(Bio).filter(Bio.person==id)
+            #print(q)
+            row_dict = {}
+            table_list = []
+            for row in q:
+                #print("found")
+                row_dict = {}
+                row_dict["person"] = row.person
+                row_dict["gender"] = row.gender
+                row_dict["photo"] = row.photo
+                row_dict["family"] = row.family
+                row_dict["religion"] = row.religion
+                row_dict["special_msg"] = row.special_msg
+                table_list.append(row_dict)
+            return table_list
+
+    def group_issues(self):
+            session = self.Session()
+            q = session.query(Issue.topic).distinct()
+            topic_full_issues = {}
+
+            for topic in q:
+                stripped = re.sub(r'[^a-zA-Z ]', '', str(topic))
+                topic_full_issues[stripped] = self.query_issues_by_topic(topic)
+
+            return topic_full_issues
 
 class DatabaseFiller(object):
     """"""
@@ -347,6 +395,35 @@ class DatabaseFiller(object):
         finally:
             session.close()
 
+    def insert_bio(self):
+            session = self.Session()
+            q_session = self.Session()
+            people = q_session.query(Person).all()
+
+            #dump_object(npat_list, "npat_formatted3")
+            try:
+                for person in people:
+                    try:
+                        bio = votesmart.candidatebio.getBio(person.id)
+
+                        session.add(Bio(person=person.id, gender=bio.gender,photo=bio.photo,
+                                        family=bio.family,
+                                        religion=bio.religion, special_msg=bio.specialMsg))
+                        session.commit()
+                    except KeyError:
+                        pass
+
+
+
+
+
+            except:
+                session.rollback()
+                raise
+            finally:
+                session.close()
+
+
 
 def dump_object(object, file_name):
     with open(file_name + ".json", 'w') as outfile:
@@ -400,12 +477,13 @@ def issue_parser(data):
 
 if __name__ == "__main__":
     df = DatabaseFiller()
-    df.insert_states()
-    df.insert_office_branch()
-    df.insert_office_level()
-    df.insert_office_type()
-    df.insert_offices()
-    df.insert_district('VT')
-    df.insert_officials('VT')
-    df.insert_candidates('VT')
-    df.insert_issues()
+    #df.insert_states()
+    #df.insert_office_branch()
+    #df.insert_office_level()
+    #df.insert_office_type()
+    #df.insert_offices()
+    #df.insert_district('VT')
+    #f.insert_officials('VT')
+    #df.insert_candidates('VT')
+    #df.insert_issues()
+    df.insert_bio()

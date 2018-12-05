@@ -42,6 +42,18 @@ class Server(BaseHTTPRequestHandler):
                 self.end_headers()
                 values = QueryManager().query_issues()
                 self.wfile.write(bytes(json.dumps(values), "utf-8"))
+            elif endpoint == "Bio":
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                values = QueryManager().query_bio(identifier)
+                self.wfile.write(bytes(json.dumps(values), "utf-8"))
+            elif endpoint == "IssueByTopic":
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                values = QueryManager().group_issues()
+                self.wfile.write(bytes(json.dumps(values), "utf-8"))
 
             else:
                 self.send_response(400, 'Bad Request: record does not exist')

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="150dp">
+
+
+    <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:background="?android:attr/listDivider"
+            android:layout_weight=".1"/>
+
+
+    <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="25dp"
+            android:textSize="15dp"
+            android:layout_marginStart="20dp"
+            android:text="description"/>
+
+    <TextView
+            android:id="@+id/answer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:layout_weight="1"
+            android:layout_marginBottom="25dp"
+            android:textSize="15dp"
+            android:layout_marginStart="20dp"
+            android:text="Answer"/>
+
+</LinearLayout>

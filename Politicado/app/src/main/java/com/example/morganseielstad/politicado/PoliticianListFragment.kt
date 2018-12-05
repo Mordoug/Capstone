@@ -48,10 +48,10 @@ class PoliticianListFragment : Fragment() {
 
         layoutManager = this@PoliticianListFragment.layoutManager
 
-        recyclerView.adapter = MyAdapter(myDataset) { id ->
+        recyclerView.adapter = MyAdapter(myDataset) { politician ->
             val ft: FragmentTransaction = activity!!.supportFragmentManager.beginTransaction()
             Log.d("ft:", id.toString())
-            ft.replace(R.id.main_fragment, PoliticianFragment(id)) //pass ID Somehow in future
+            ft.replace(R.id.main_fragment, PoliticianFragment(politician)) //pass ID Somehow in future
             ft.addToBackStack(ft.toString())
             ft.commit()
         }

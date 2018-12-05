@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.politician_list_row.view.*
 
-class MyAdapter(private val myDataset: ArrayList<Politician>, val listener: (Int) -> Unit) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapter(private val myDataset: ArrayList<Politician>, val listener: (Politician) -> Unit) : RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -46,12 +46,11 @@ class MyAdapter(private val myDataset: ArrayList<Politician>, val listener: (Int
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Log.i("RecycleAdapter", "onBindViewHolder")
         holder.name.text = myDataset[position].firstName + " " + myDataset[position].lastName
         holder.office.text = myDataset[position].officeName
 
         holder.itemView.setOnClickListener {
-            listener(myDataset[position].id)
+            listener(myDataset[position])
 
         }
 

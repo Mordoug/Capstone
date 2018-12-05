@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#E6F4F2</color>
+    <color name="colorPrimaryDark">#007155</color>
+
+    <color name="colorAccent">#b4efdc</color>
+    <color name="petePink"></color>
+    <color name="peteBlue">#B4EFDC</color>
+    <color name="black">#272727</color>
 </resources>

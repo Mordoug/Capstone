@@ -10,17 +10,22 @@ import com.github.kittinunf.fuel.httpGet
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.StringReader
+import java.lang.reflect.Array
 
 
 class PoliticianController {
     var politicians = ArrayList<Politician>()
     var issues = ArrayList<Issue>()
+    var bio:Bio = Bio(-1,"","","","", "")
 
     fun getPoli(): ArrayList<Politician>{
         return politicians
     }
     fun getIss(): ArrayList<Issue>{
         return issues
+    }
+    fun getBi(): Bio{
+        return bio
     }
     fun politicianReader(strReader: StringReader) : ArrayList<Politician>{
 
@@ -96,6 +101,44 @@ class PoliticianController {
         return result
     }
 
+    fun bioReader(strReader: StringReader) : Bio{
+
+
+        val result = ArrayList<Issue>()
+
+        val reader = JsonReader(strReader)
+
+        reader.beginArray()
+
+        var id: Int = -1
+        var gender: String = ""
+        var photo: String = ""
+        var family: String = ""
+        var religion: String = ""
+        var specialMessage: String = ""
+
+        reader.beginObject()
+        while (reader.hasNext()) {
+            when (reader.nextName()) {
+                "person" -> id = reader.nextInt()
+                "gender" -> gender = reader.nextString()
+                "photo" -> photo = reader.nextString()
+                "family" -> family = reader.nextString()
+                "religion" -> religion = reader.nextString()
+                "special_msg" -> specialMessage = reader.nextString()
+
+
+                else -> reader.skipValue()
+            }
+        }
+        reader.endObject()
+
+        val blah = Bio(id, gender, photo, family, religion, specialMessage)
+        Log.i("blah,", blah.photo)
+        return blah
+
+    }
+
     fun callIssues(identifier: Int) : Boolean{
         var success: Boolean
 
@@ -136,6 +179,30 @@ class PoliticianController {
         if (error == null) {
             //do something when success
             politicians = politicianReader(StringReader(data))
+            success = true;
+            Log.i("Pol:", politicians.toString())
+        } else {
+            //error handling
+            success = false
+            Log.i("Json", error.toString())
+        }
+
+
+        return  success
+    }
+
+    fun callBio(identifier: Int) : Boolean {
+        var success: Boolean
+
+        var fullString : String = identifier.toString() + "/Bio"
+        FuelManager.instance.basePath = "http:/10.0.2.2:8008/api"
+        val (request, response, result ) = fullString.httpGet().responseString()
+        //responseString { ->
+        //make a GET to https://httpbin.org/get and do something with response
+        val (data, error) = result
+        if (error == null) {
+            //do something when success
+            bio = bioReader(StringReader(data))
             success = true;
             Log.i("Pol:", politicians.toString())
         } else {

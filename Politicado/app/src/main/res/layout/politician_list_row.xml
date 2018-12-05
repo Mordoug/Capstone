@@ -2,33 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="140dp"
-              android:outlineProvider="bounds">
+              android:layout_height="100dp">
 
         <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:backgroundTint="@color/colorAccent"
+                android:layout_height="2dp"
+                android:backgroundTint="@color/colorPrimaryDark"
                 android:background="?android:attr/listDivider"
-                android:layout_weight="1"/>
+                android:layout_weight=".1"/>
+
+
         <TextView
                 android:id="@+id/name"
-                android:layout_width="191dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:layout_gravity="top|start"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="1dp"
                 android:layout_weight="1"
+                android:layout_marginLeft="20dp"
+                android:textFontWeight="800"
+                android:textSize="22dp"
                 android:text="Name"/>
 
 
         <TextView
                 android:id="@+id/office"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start"
+                android:layout_gravity="center|start"
                 android:layout_weight="1"
-                android:ellipsize="end"
+                android:layout_marginBottom="25dp"
+                android:textSize="15dp"
+                android:layout_marginLeft="20dp"
                 android:text="Office"/>
 
 

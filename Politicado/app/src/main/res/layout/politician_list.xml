@@ -5,6 +5,19 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <!--
+        Header
+    -->
+    <TextView
+        android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:text="All Vermont Representatives"
+        android:paddingTop="2dp"
+        android:paddingLeft="10dp"
+        android:background="@color/colorPrimaryDark"
+        android:textSize="22dp"
+        android:textFontWeight="800"/>
+
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycle_poly"

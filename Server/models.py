@@ -27,6 +27,32 @@ class Person(Base):
     office =   Column(Integer, ForeignKey('office.id'))
     address = Column(Integer, ForeignKey('address.id'))
 
+class Bio(Base):
+    """
+        bio.candidate.pronunciation
+        bio.candidate.gender
+        bio.candidate.family
+        bio.candidate.photo
+        bio.candidate.homeCity
+        bio.candidate.homeState
+        bio.candidate.education**
+        bio.candidate.profession**
+        bio.candidate.political**
+        bio.candidate.religion
+        bio.candidate.congMembership**
+        bio.candidate.orgMembership**
+        bio.candidate.specialMsg
+
+    """
+    __tablename__ = 'bio'
+    person = Column(Integer, ForeignKey('person.id'), primary_key=True)
+    gender = Column(String(250), nullable=True)
+    photo = Column(String(250), nullable=True)
+    family = Column(String(250), nullable=True)
+    education = Column(String(250), nullable=True)
+    profession = Column(String(250), nullable=True)
+    religion = Column(String(250), nullable=True)
+    special_msg = Column(String(250), nullable=True)
 
 class Address(Base):
     __tablename__ = 'address'
